@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import HelloWorld from '@/components/HelloWorld'
-import ddd from '@/components/ddd'
 
 Vue.use(Router)
 
@@ -10,12 +9,10 @@ export default new Router({
     {
       path: '/',
       name: 'HelloWorld',
-      component: HelloWorld
-    },
-    {
-      path: '/ddd',
-      name: 'ddd',
-      component: ddd
+      component: HelloWorld,
+      meta: {
+        requireAuth: true // 路由前置守卫判断路由元信息做权限判定
+      }
     }
   ]
 })
