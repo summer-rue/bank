@@ -7,7 +7,7 @@ import MetaInfo from 'vue-meta-info'
 import store from './store'
 import 'vant/lib/index.css'
 
-Vue.use(MetaInfo)
+Vue.use(MetaInfo) // TDK设置
 
 Vue.config.productionTip = false
 
