@@ -85,6 +85,19 @@
 
 <script>
 export default {
+  metaInfo: {
+    title: '积分商城首页-首页',
+    meta: [
+      {
+        name: 'keywords',
+        content: '宝马会,积分商城,宝马会积分商城'
+      },
+      {
+        name: 'description',
+        content: '欢迎来到报马会积分商城'
+      }
+    ]
+  },
   name: 'HelloWorld',
   data () {
     return {

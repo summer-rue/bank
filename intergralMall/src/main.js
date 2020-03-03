@@ -3,6 +3,9 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+import MetaInfo from 'vue-meta-info'
+
+Vue.use(MetaInfo)
 
 Vue.config.productionTip = false
 
