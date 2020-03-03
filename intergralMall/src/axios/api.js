@@ -2,7 +2,7 @@
 import { get, post } from './http'
 
 // get请求封装
-export const apiGet = () => get('api/...')
+export const goodGet = () => get('api/...')
 
 // -----------------------------------------------------
 // *************长长的分哥线***********************

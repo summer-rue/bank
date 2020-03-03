@@ -17,6 +17,7 @@
     "axios": "^0.19.2",
     "vant": "^2.5.3",
     "vue": "^2.5.2",
+    "vue-infinite-loading": "^2.4.4",
     "vue-meta-info": "^0.1.7",
     "vue-router": "^3.0.1",
     "vuex": "^3.1.2"

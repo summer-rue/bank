@@ -13,7 +13,7 @@ import QS from 'qs'
 // }
 
 // 一般情况不用环境切换是的baseURL
-axios.defaults.baseURL = 'https://www.ddd.com'
+axios.defaults.baseURL = 'https://bmw1984.com'
 
 // 请求超时时间
 axios.defaults.timeout = 10000
