@@ -5,7 +5,6 @@ import Login from '@/components/page/Login'
 import PersoNal from '@/components/page/PersoNal'
 
 Vue.use(Router)
-
 export default new Router({
   mode: 'history',
   routes: [
@@ -22,7 +21,10 @@ export default new Router({
     {
       path: '/PersoNal',
       name: 'PersoNal',
-      component: PersoNal
+      component: PersoNal,
+      meta: {
+        requireAuth: true
+      }
     }
   ]
 })

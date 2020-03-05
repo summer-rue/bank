@@ -44,7 +44,7 @@ export default {
       LoginApi(p).then(res => {
         // 账号密码正确，登陆成功时
         localStorage.setItem('token', res.key) // 将token 存入localStorage
-        this.$router.push('/')
+        this.$router.push(this.$store.state.fullPath) // 返回原本要去的路由地址
       // eslint-disable-next-line handle-callback-err
       }).catch(error => {
         // 后台判断账号密码错误时
@@ -68,6 +68,7 @@ export default {
   height: 100vh;
   position: relative;
   margin-top: -2.75rem;
+  margin-bottom: -2.75rem;
   background: url("../../assets/images/login/background.png")
 }
 

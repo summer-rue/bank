@@ -4,25 +4,29 @@
     <img src="../../assets/images/PersoNal/personBg.png" alt="" id="personBg">
     <div id="personMsg">
       <img src="../../assets/images/PersoNal/person.jpg" alt="" id="person">
-      <p id="personName">{{firstName + lastName}} <span> 登出</span></p>
-      <img src="../../assets/images/PersoNal/zz@3x.png" alt="" id="personLeve">
-      <p id="personPoints"><span>总积分： </span><b>{{balance_common_points}}</b><span id="justShu">丨</span><span>可用积分： </span><b>{{total_common_points}}</b></p>
+      <p id="personName">{{firstName + lastName}} <span @click="logout"> 登出</span></p>
+      <img :src="level_img[shopLeve]" alt="" id="personLeve">
+      <p id="personPoints"><span>通用积分： </span><b>{{balance_common_points}}</b><span id="justShu">丨</span><span>签到积分： </span><b>{{total_points}}</b></p>
     </div>
 
     <div id="singDayBox">
       <div id="singDaySmallBox">
         <div id="singDay">
-          <div class="singDay-msg">
-            <p class="singDay-poiont">+10</p>
-            <div class="singDay-gou1"><van-icon name="success" /></div>
-            <div class="singDay-gou2"><van-icon name="success" /></div>
-            <div for="" class="singDay-line1"></div>
-            <div for="" class="singDay-line2"></div>
-            <p class="singDay-day" >12-20</p>
+          <div class="singDay-msg" v-for="(singData,index) in singData" :key="index">
+            <p class="singDay-poiont">+{{singData[1]}}</p>
+            <div class="singDay-gou1" v-if="singData[1] !=0 "><van-icon name="success" /></div>
+            <div class="singDay-gou2" v-else><van-icon name="success" /></div>
+            <div for="" class="singDay-line1" v-if="singData[1] !=0 "></div>
+            <div for="" class="singDay-line2" v-else></div>
+            <p class="singDay-day" >{{singData[0]}}</p>
           </div>
         </div>
-        <div id="singDayPointMsg"><span id="singDayPointMsg-left">已连续签到3天</span><span id="singDayPointMsg-right">明日签到可领取20积分</span></div>
-        <button id="singDay-btn">签 到</button>
+        <div id="singDayPointMsg">
+          <span id="singDayPointMsg-left">已连续签到{{continuity_days}}天</span>
+          <span id="singDayPointMsg-right" v-if="tomorrowPoint != 0">明日签到可领取{{tomorrowPoint}}积分</span>
+          <span id="singDayPointMsg-right" v-else>今日签到可领取{{todayPoint}}积分</span>
+        </div>
+        <button id="singDay-btn" @click="singDatBtn" v-html="singBtnMsg" :disabled="btnTF" :style="btnStyle"></button>
       </div>
     </div>
 
@@ -64,7 +68,7 @@
 <script>
 import TopBar from '@/components/component/TopBar'
 import BottomBar from '@/components/component/BottomBar'
-import {personalApi1, personalApi2, personalApi3} from '@/axios/api'
+import {personalApi1, personalApi2, personalApi3, singMsgApi} from '@/axios/api'
 export default {
   components: {
     TopBar,
@@ -74,17 +78,28 @@ export default {
     return {
       firstName: '',
       lastName: '',
-      total_common_points: null,
+      btnTF: false,
+      singBtnMsg: '签 到',
       balance_common_points: null,
+      total_points: null,
+      continuity_days: null,
+      shopLeve: null,
+      singData: [],
+      todayPoint: null,
+      tomorrowPoint: null,
       level_img: [
-        require('@/assets/images/persoNal/pt@3x.png'),
-        require('@/assets/images/persoNal/hj@3x.png'),
-        require('@/assets/images/persoNal/bj@3x.png'),
-        require('@/assets/images/persoNal/zs@3x.png'),
-        require('@/assets/images/persoNal/zz@3x.png'),
-        require('@/assets/images/persoNal/wz@3x.png'),
-        require('@/assets/images/persoNal/ty@3x.png')
-      ]
+        require('@/assets/images/persoNal/pt.png'),
+        require('@/assets/images/persoNal/hj.png'),
+        require('@/assets/images/persoNal/bj.png'),
+        require('@/assets/images/persoNal/zs.png'),
+        require('@/assets/images/persoNal/zz.png'),
+        require('@/assets/images/persoNal/wz.png'),
+        require('@/assets/images/persoNal/ty.png')
+      ],
+      btnStyle: {
+        color: '#ffffff',
+        background: 'linear-gradient(rgba(255, 225, 141, 1),rgba(229, 171, 33, 1))'
+      }
     }
   },
   created () {
@@ -96,12 +111,66 @@ export default {
         this.firstName = res.first_name
         this.lastName = res.last_name
       })
+      // eslint-disable-next-line handle-callback-err
+        .catch(error => {
+          this.errorMsg('签到信息获取错误，请联系在线客服', 5000)
+        })
       personalApi2().then(res => {
-        this.total_common_points = res.total_common_points
         this.balance_common_points = res.balance_common_points
+        this.shopLeve = res.shop_level
       })
+      // eslint-disable-next-line handle-callback-err
+        .catch(error => {
+          this.errorMsg('签到信息获取错误，请联系在线客服', 5000)
+        })
       personalApi3().then(res => {
-        console.log(res)
+        if (res.status === 201) {
+          this.btnTF = true
+          this.singBtnMsg = '已签到'
+          this.btnStyle.color = '#000'
+          this.btnStyle.background = '#ffffff'
+        }
+        this.singData = res.data
+        this.total_points = res.total_points
+        this.continuity_days = res.continuity_days
+        this.todayPoint = res.today
+        this.tomorrowPoint = res.tomorrow
+      })
+        // eslint-disable-next-line handle-callback-err
+        .catch(error => {
+          this.errorMsg('签到信息获取错误，请联系在线客服', 5000)
+        })
+    },
+    singDatBtn () { // 签到按钮
+      // 发送post请求
+      singMsgApi().then(res => {
+        this.btnTF = true
+        this.singBtnMsg = '已签到'
+        this.btnStyle.color = '#000'
+        this.btnStyle.background = '#ffffff'
+        this.singData = res.data
+        this.total_points = res.total_points
+        this.continuity_days = res.continuity_days
+        this.tomorrowPoint = res.tomorrow
+      })
+        // eslint-disable-next-line handle-callback-err
+        .catch(error => {
+          this.errorMsg('签到出错，请联系在线客服', 5000)
+        })
+    },
+
+    // 登出
+    logout () {
+      localStorage.removeItem('token')
+      this.$router.push('/')
+    },
+
+    // 错误信息弹出
+    errorMsg (msg, time) {
+      this.$notify({
+        message: msg,
+        type: 'warning',
+        duration: time
       })
     }
   }
@@ -109,6 +178,10 @@ export default {
 </script>
 
 <style>
+
+#PersoNal {
+  margin-bottom: 2.75rem
+}
 #personBg {
   width: 100%;
   position: absolute;
@@ -157,7 +230,8 @@ export default {
 }
 .singDay-msg {
   display:inline-block;
-  width: 12%
+  width: 12%;
+  text-align: left
 }
 
 .singDay-gou1 {
@@ -199,12 +273,14 @@ export default {
 }
 
 .singDay-poiont {
-  font-size: 10px
+  font-size: 10px;
+  margin-bottom: 5px
 }
 
 .singDay-day {
   margin-top:10px;
   font-size: 10px;
+  margin-left: -8px
 }
 
 #singDayPointMsg{
@@ -227,12 +303,10 @@ export default {
 #singDay-btn {
   margin-top: 15px;
   width: 70%;
-  color: #ffffff;
   height: 1.8rem;
   border: none;
   border-radius: 3px;
   box-sizing: border-box;
-  background:linear-gradient(rgba(255, 225, 141, 1),rgba(229, 171, 33, 1))
   }
 
 #personRules {
