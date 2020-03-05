@@ -26,7 +26,7 @@ Vue.config.productionTip = false
 // 路由前置守卫，判断登陆权限
 router.beforeEach((to, from, next) => {
   if (to.meta.requireAuth) { // 要去的页面是否需要权限
-    store.state.fullPath = to.path // 设置一个共享参数，存放原来要去的路由地址，登陆成功后返回原本要去的路由
+    store.commit('changeFullPath', to.path) // vuex中设置一个共享参数，存放原来要去的路由地址，登陆成功后返回原本要去的路由
     if (localStorage.getItem('token')) { // 是否已登陆
       next()
     } else {
