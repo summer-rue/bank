@@ -5,10 +5,9 @@ import App from './App'
 import router from './router'
 import MetaInfo from 'vue-meta-info'
 import store from './store'
-import { Icon, Tabbar, TabbarItem, Swipe, SwipeItem, NoticeBar, Tab, Tabs } from 'vant'
+import { Icon, Tabbar, TabbarItem, Swipe, SwipeItem, NoticeBar, Tab, Tabs, Toast, Notify } from 'vant'
 import 'vant/lib/index.css'
 import '../src/assets/css/base.css'
-
 Vue.use(Icon)
 Vue.use(Tabbar)
 Vue.use(TabbarItem)
@@ -17,6 +16,8 @@ Vue.use(SwipeItem)
 Vue.use(NoticeBar)
 Vue.use(Tab)
 Vue.use(Tabs)
+Vue.use(Toast)
+Vue.use(Notify)
 
 Vue.use(MetaInfo) // TDK设置
 

@@ -32,7 +32,12 @@
       <van-tab v-for="goods in goods" :title="goods.name" :key="goods.index" >
         <div class="goodsBox">
           <div class="goodDetail" v-for="goodData in goods.data" :key="goodData.pk">
-            <div class="goods-img"><img :src="'https://bmw1984.com' + goodData.app_img.url" alt="" ></div>
+            <div class="goods-img" v-if="goodData.app_img">
+              <img :src="'https://bmw1984.com' + goodData.app_img.url" alt="" >
+            </div>
+            <div class="goods-img" v-else >
+              <img :src="'https://bmw1984.com' + goodData.pc_img.url" alt="">
+            </div>
             <p class="goods-title">{{goodData.title}}</p>
             <p class="goods-description">{{goodData.description}}</p>
             <p class="goods-points">{{goodData.points}} 积分</p>
@@ -51,7 +56,7 @@
 import TopBar from '@/components/component/TopBar'
 import BottomBar from '@/components/component/BottomBar'
 import axios from 'axios'
-import InfiniteLoading from 'vue-infinite-loading'
+import InfiniteLoading from 'vue-infinite-loading' // 懒加载组件
 
 const api = 'https://bmw1984.com/api/mulu'
 
@@ -90,7 +95,7 @@ export default {
           format: 'json'
         }
       }).then(({ data }) => {
-        if (data.count) {
+        if (data) {
           this.page += 1
           this.goods[this.active].data.push(...data.results)
           $state.loaded()
@@ -104,7 +109,7 @@ export default {
     }
   },
   watch: {
-    'active': function (val) {
+    'active': function (val) { // 通过监听active的变化来更换请求数据地址， 切换Tab时，active会跟着变化
       this.newsType = api + this.goods[val].url
       this.page = 1
       this.infiniteId += 1
@@ -157,10 +162,14 @@ margin-right: 5px
 }
 
 .goods-img {
-  background-color: #ffffff
+  background-color: #ffffff;
+  height: 13.5vh;
+  text-align: center
+
 }
 .goods-img>img {
-  width: 100%;
+   max-width: 100%;
+  max-height: 100%
 }
 .goodDetail>p{
   width: 90%;

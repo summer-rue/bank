@@ -1,10 +1,10 @@
 <template>
-  <van-tabbar id="BottomBar" v-model="active" active-color="rgba(181, 128, 36, 1)">
-    <van-tabbar-item name="/" icon="wap-home">首页</van-tabbar-item>
-    <van-tabbar-item name="/YouHui" icon="hot">优惠</van-tabbar-item>
-    <van-tabbar-item name="/GuanWang" icon="gem">官网</van-tabbar-item>
-    <van-tabbar-item name="/VIP" icon="vip-card">vip</van-tabbar-item>
-    <van-tabbar-item name="/PersoNal" icon="manager">我的</van-tabbar-item>
+  <van-tabbar id="BottomBar" v-model="active" active-color="rgba(181, 128, 36, 1)" route>
+    <van-tabbar-item name="/" icon="wap-home" to="/">首页</van-tabbar-item>
+    <van-tabbar-item name="/YouHui" icon="hot" to="/YouHui">优惠</van-tabbar-item>
+    <van-tabbar-item name="/GuanWang" icon="gem" to="/GuanWang">官网</van-tabbar-item>
+    <van-tabbar-item name="/VIP" icon="vip-card" to="/VIP">vip</van-tabbar-item>
+    <van-tabbar-item name="/PersoNal" icon="manager" to="/PersoNal">我的</van-tabbar-item>
   </van-tabbar>
 </template>
 

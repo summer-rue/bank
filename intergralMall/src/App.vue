@@ -28,4 +28,7 @@ export default {
 #app {
   margin-top: 2.75rem;
 }
+.clearlove {
+  clear: both;
+}
 </style>
