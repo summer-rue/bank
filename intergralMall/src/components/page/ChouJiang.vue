@@ -28,8 +28,38 @@
             </ul>
           </li>
         </ul>
-        <button id="luckBt" @click="luckBtn">抽 奖</button>
+        <button id="luckBt" @click="luckBtn" :disabled="luckBtnTf">抽 奖</button>
       </div>
+    </div>
+
+    <!-- 中奖信息遮罩层 -->
+    <div id="resBox" v-if="btnTf">
+      <img src="../../assets/images/luck/blockres.png" alt="">
+      <p id="resBox-msg1"><b>{{resNum}}</b>元</p>
+      <p id="resBox-msg2">恭喜您获得{{resNum}}元奖金</p>
+      <p id="resBox-msg3">请在我的账户里查看</p>
+      <div id="resBox-closeBtn" @click="btnTf = !btnTf"></div>
+    </div>
+
+    <div id="resMsg">
+      <p>中奖公告</p>
+      <div class="swiper-container">
+        <swiper :options="swiperOption">
+          <swiper-slide v-for="(rulingMsg, item) in rulingMsg" :key="item" class="resMsg-li">
+                <div class="resMsg-li-tx"><img src="../../assets/images/luck/tx.png" alt="" class="resMsg-li-tx"></div>        
+                <div class="resMsg-li-txt"><span>{{rulingMsg.letter}}</span></div>
+          </swiper-slide>
+        </swiper>
+      </div>
+    </div>
+
+    <div id="luckRule">
+      <b>活动规则</b>
+      <p>1、每天所有会员总投注额的千分之一将会被纳入总奖池内，作为会员当日抽奖的奖励金额；</p>
+      <p>2、任意会员每次抽奖的奖励金额均为随机，单笔奖金的最低金额为6元，最高金额为66666元，中奖率100%；</p>
+      <p>3、会员前一天的投注额越高，则次日参与抽奖时，中得大奖的几率也会越高；</p>
+      <p>4、该活动每天只能抽奖一次，每次换取抽奖机会的6000元投注额可在任意游戏内产生（彩票游戏除外）；</p>
+      <p>5、奖金只需完成1倍流水即可提款，可投注任意游戏（彩票游戏除外）。</p>
     </div>
   </div>
 </template>
@@ -37,13 +67,14 @@
 <script>
 import TopBar2 from '@/components/component/TopBar2'
 import $ from 'jquery'
-import { luckChaceApi, luckResApi } from '@/axios/api'
+import { luckChaceApi, luckResApi, luckRulingApi } from '@/axios/api'
 export default {
   components: {
     TopBar2
   },
   data () {
     return {
+      rulingMsg: [],
       numData: [
         require('@/assets/images/luck/logo.png'),
         require('@/assets/images/luck/6.png'),
@@ -178,6 +209,7 @@ export default {
         require('@/assets/images/luck/600.png'),
         require('@/assets/images/luck/1000.png')
       ],
+      luckBtnTf: false,
       numHeight: {
         height: ''
       },
@@ -185,12 +217,23 @@ export default {
       chance: 1,
       res: [],
       numarr: [],
-      resNum: null
+      resNum: null,
+      btnTf: false,
+      swiperOption: {
+        slidesPerView: 2,
+        spaceBetween: 5,
+        loop: true,
+        freeMode: true,
+        autoplay: {
+          delay: 2000
+        }
+      }
     }
   },
   created () {
     this.$store.commit('changeTitle', '幸运大抽奖')
     // this.getChance()
+    this.getRrlling()
   },
   methods: {
     // 抽奖开始
@@ -199,17 +242,18 @@ export default {
       if (_this.chance === 0) { // 抽奖次数为0时 弹出错误信息
         this.errorMsg('很抱歉，您的抽奖次数为0。无法参与抽奖', 2500)
       } else { // 有抽奖机会，则开始抽奖
+        _this.luckBtnTf = true // 转动时禁用按钮
         _this.chance -= 1
 
         // 请求规则信息
         luckResApi().then(res => {
           // 处理收到的规则信息，然后根据处理后的信息启动抽奖，反馈出结果
+          // this.res = res.result
           this.res = [0, 100, 1000]
-          this.resMsg() // 抽奖结果计算
-          console.log(this.resNum)
           this.computedRes()
           // 请求完成后再执行转动事件
           this.luckTurn()
+          this.resMsg() // 抽奖结果计算,弹出结果
         }).catch(error => {
           this.errorMsg(error, 5000)
         })
@@ -222,7 +266,7 @@ export default {
       })
         // eslint-disable-next-line handle-callback-err
         .catch(error => {
-          if (Response.status = 401) {
+          if (Response.status === 401) {
             this.errorMsg('您还未登录,请点击“我的”登录后进行', 5000)
           } else {
             this.errorMsg('提交错误，请在线联系客服', 5000)
@@ -314,11 +358,24 @@ export default {
       }
     },
 
-    // 计算出中奖结果
+    // 计算出中奖结果,结果弹出
     resMsg () {
-      this.resNum = this.res[0] + this.res[1] + this.res[2]
+      let _this = this
+      _this.resNum = _this.res[0] + _this.res[1] + _this.res[2]
+      setTimeout(
+        function () {
+          _this.btnTf = true
+          _this.luckBtnTf = false // 动画完成后解禁抽奖按钮
+        }, 7850
+      )
     },
-
+    // 中奖信息请求
+    getRrlling () {
+      luckRulingApi().then(res => {
+        this.rulingMsg = res.results
+      })
+    },
+    // 弹出结果框的显示隐藏
     // 错误信息弹出
     errorMsg (msg, time) {
       this.$notify({
@@ -335,6 +392,7 @@ export default {
 
 #ChouJiang {
   position: relative;
+  background:#f67b0d transparent
 }
 #luckbg {
   width: 100%;
@@ -418,5 +476,117 @@ export default {
 
 .luckpic>img {
   width: 100%;
+}
+
+#resBox {
+  position: absolute;
+  top:0;
+  left: 0;
+  width: 100%;
+  z-index: 1;
+}
+
+#resBox>img{
+  width: 100%;
+}
+
+#resBox-msg1 {
+  position: absolute;
+  top:31%;
+  color: rgba(181, 22, 0, 1);
+  width: 100%;
+  text-align: center;
+}
+
+#resBox-msg1>b {
+  font-size: 30px;
+}
+
+#resBox-msg2 {
+  position: absolute;
+  top:45%;
+  width: 100%;
+  text-align: center;
+  font-size: 15px;
+  color: rgba(255, 200, 130, 1);
+}
+
+#resBox-msg3 {
+  position: absolute;
+  top:50%;
+  width: 100%;
+  text-align: center;
+  font-size: 12px;
+  color:rgba(236, 100, 82, 1);
+}
+
+#resBox-closeBtn {
+  position: absolute;
+  top:23%;
+  left: 69%;
+  width: 9%;
+  height: 6%;
+}
+
+#resMsg {
+  width: 93%;
+  margin:0 auto;
+  background-color:rgba(249, 199, 74, 1) ;
+  padding: 6px 6px 15px 6px;
+  border-radius: 8px;
+}
+
+#resMsg>p {
+  width: 100%;
+  text-align: left;
+  margin-bottom: 6px;
+  color: #ffffff;
+}
+.resMsg-li {
+  background-color: bisque;
+  border-radius: 55px;
+}
+
+.resMsg-li-tx {
+  float: left;
+  width: 20%;
+  margin: 0 0 0 2px;
+}
+
+.resMsg-li-tx>img {
+  width: 100%;
+}
+
+.resMsg-li-txt {
+  float: left;
+  width: 70%;
+  color: rgba(165, 7, 23, 1);
+  font-size: 13px;
+  margin-left: 5px ;
+  text-align: left;
+}
+
+#luckRule {
+  width: 93%;
+  margin: 0 auto;
+  margin-top: 20px;
+  background-color: rgba(249, 199, 74, 1);
+  text-align: left;
+  padding: 10px 5px;
+  border-radius: 8px;
+}
+
+#luckRule>b {
+  color: #ffffff;
+}
+
+#luckRule>p {
+  color: rgba(201, 70, 58, 1);
+  font-size: 13px;
+  line-height: 20px;
+}
+/*swiper显示层*/
+.swiper-container{
+  z-index: 0;
 }
 </style>

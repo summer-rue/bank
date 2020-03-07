@@ -5,9 +5,12 @@ import App from './App'
 import router from './router'
 import MetaInfo from 'vue-meta-info'
 import store from './store'
-import { Icon, Tabbar, TabbarItem, Swipe, SwipeItem, NoticeBar, Tab, Tabs, Toast, Notify } from 'vant'
+import { Icon, Tabbar, TabbarItem, Swipe, SwipeItem, NoticeBar, Tab, Tabs, Toast, Notify, Lazyload } from 'vant'
 import 'vant/lib/index.css'
 import '../src/assets/css/base.css'
+import VueAwesomeSwiper from 'vue-awesome-swiper'
+import 'swiper/css/swiper.css'
+// import
 Vue.use(Icon)
 Vue.use(Tabbar)
 Vue.use(TabbarItem)
@@ -18,8 +21,10 @@ Vue.use(Tab)
 Vue.use(Tabs)
 Vue.use(Toast)
 Vue.use(Notify)
+Vue.use(MetaInfo)
+Vue.use(VueAwesomeSwiper)
 
-Vue.use(MetaInfo) // TDK设置
+Vue.use(Lazyload)// TDK设置
 
 Vue.config.productionTip = false
 

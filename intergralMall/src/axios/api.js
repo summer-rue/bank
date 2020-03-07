@@ -7,6 +7,7 @@ export const personalApi2 = () => get('/api/auth/points/?format=json') // 个人
 export const personalApi3 = () => get('/api/auth/sign/query/?format=json') // 个人中心签到数据请求
 export const singMsgApi = () => get('/api/auth/sign/in/?format=json') // 个人中心签到Post请求
 export const luckChaceApi = () => get('/api/lucky_everyday/lottery/?format=json') // 抽奖中心抽奖次数获取
+export const luckRulingApi = () => get('/api/lucky_everyday/rolling_letter/?format=json&page_size=30') // 抽奖中心抽奖次数获取
 
 // -----------------------------------------------------
 // *************长长的分哥线***********************
