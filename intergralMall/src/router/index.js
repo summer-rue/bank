@@ -5,6 +5,7 @@ import YouHui from '@/components/page/YouHui'
 import PersoNal from '@/components/page/PersoNal'
 import Login from '@/components/page/Login'
 import ChouJiang from '@/components/page/ChouJiang'
+import Nba from '@/components/page/NBA'
 
 Vue.use(Router)
 export default new Router({
@@ -29,6 +30,13 @@ export default new Router({
       path: '/ChouJiang',
       name: 'ChouJiang',
       component: ChouJiang
+    },
+
+    // NBA抽奖
+    {
+      path: '/Nba',
+      name: 'Nba',
+      component: Nba
     },
     // 登陆
     {

@@ -46,7 +46,7 @@
       <div class="swiper-container">
         <swiper :options="swiperOption">
           <swiper-slide v-for="(rulingMsg, item) in rulingMsg" :key="item" class="resMsg-li">
-                <div class="resMsg-li-tx"><img src="../../assets/images/luck/tx.png" alt="" class="resMsg-li-tx"></div>        
+                <div class="resMsg-li-tx"><img src="../../assets/images/luck/tx.png" alt="" class="resMsg-li-tx"></div>
                 <div class="resMsg-li-txt"><span>{{rulingMsg.letter}}</span></div>
           </swiper-slide>
         </swiper>
@@ -433,6 +433,7 @@ export default {
   position: absolute;
   top: 11%;
   left: 35%;
+  color:rgba(198, 57, 63, 1)
 }
 
 #luckBt {
