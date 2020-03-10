@@ -6,6 +6,7 @@ import PersoNal from '@/components/page/PersoNal'
 import Login from '@/components/page/Login'
 import ChouJiang from '@/components/page/ChouJiang'
 import Nba from '@/components/page/NBA'
+import ConverSion from '@/components/page/conversion'
 
 Vue.use(Router)
 export default new Router({
@@ -16,6 +17,13 @@ export default new Router({
       path: '/',
       name: 'ShouYe',
       component: ShouYe
+    },
+
+    // 商品兑换详情页
+    {
+      path: '/converSion',
+      name: 'conversion',
+      component: ConverSion
     },
 
     // 优惠
@@ -38,6 +46,7 @@ export default new Router({
       name: 'Nba',
       component: Nba
     },
+
     // 登陆
     {
       path: '/Login',

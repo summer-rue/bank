@@ -71,7 +71,7 @@
                   </div>
                 </div>
               </div>
-              <div class="nbaSmallBox-ing">
+              <div class="nbaBigBox-ing">
                 <img src="../../assets/images/Nba/nbaend.png" alt="">
               </div>
             </div>
@@ -85,7 +85,7 @@
                   <div class="nbaBigBox-teamMsg" >
                     <img :src="'https://www.bmw1984.com' + nbaMsg.competition.team_one.team_img_url.url" alt="">
                     <p>{{nbaMsg.competition.team_one.team_name}}</p>
-                    <button class="nbaBtn"  :disabled="btnLock" @click="choiceTeam(nbaMsg.competition.pk,nbaMsg.competition.team_one.team_name)">赢</button>
+                    <button class="nbaBtn"  :value="nbaMsg.competition.pk" :title="nbaMsg.competition.team_one.team_name" :disabled="btnLock" @click="choiceTeam(nbaMsg.competition.pk,nbaMsg.competition.team_one.team_name)">赢</button>
                   </div>
                   <div class="nbaBigBox-msg-time">
                     <p>{{nbaMsg.competition.competition_date}}</p>
@@ -99,7 +99,7 @@
                   </div>
                 </div>
               </div>
-              <div class="nbaSmallBox-ing">
+              <div class="nbaBigBox-ing">
                 <img src="../../assets/images/Nba/nbanow.png" alt="">
               </div>
             </div>
@@ -133,8 +133,17 @@
               </div>
             </div>
           </template>
+
         </li>
       </ul>
+      <div id="nbaRule">
+        <b id="nbaRule-title">活动细则：</b>
+        <p>1、该活动的存款额以美东时间为统计标准，每天中午12点至次日中午12点为一个计算周期；</p>
+        <p>2、每天中午12点前完成规定的存款额，可参与当天的竞猜活动（需在比赛开始后30分钟内竞猜并提交结果）；每天中午12点后完成的存款额，只可参与次日的竞猜活动；</p>
+        <p>3、该活动每天只可竞猜1次，竞猜成功的会员，可获得18元彩金，完成3倍流水即可提款（最高可提款188元），可投注任意游戏（彩票除外）</p>
+        <p>4、竞猜成功的会员，可凭会员账号联系在线客服领取奖励；</p>
+        <p>5、每天中午12点后，至第二天的比赛开始后30分钟内，为竞猜时间，在该时段内完成388元存款额即可参与竞猜，逾期未存款或未提交的比赛结果，将无法获得奖励（例如2020年1月1日09:00:00 雷霆VS小牛的比赛，参与竞猜的会员可在12月31日12:00:00后完成存款并参与竞猜，最迟需在01月01日09:30:30前完成存款并提交竞猜结果，超过该时段将无法参与该场竞猜。</p>
+      </div>
     </div>
   </div>
 </template>
@@ -156,13 +165,18 @@ export default {
       btnLock: false
     }
   },
+  updated () {
+    this.btnColor() // 判断是否已参与竞猜
+  },
   methods: {
-    msgGet () { // NBA竞猜信息请求
+    // NBA竞猜信息请求
+    msgGet () {
       NBAmegApi().then(res => {
-        console.log(res)
         this.nbaMsg = res
       })
     },
+
+    // 盒子点击时的显示隐藏
     selectSmallBox () {
       let that = event.currentTarget
       let thatParent = that.parentNode
@@ -170,7 +184,7 @@ export default {
       // 获取父元素的其他兄弟元素
       let parentSibl = []
 
-      // 找出2除自己父元素之外的父元素集合
+      // 找出除自己父元素之外的父元素集合
       let elseLi = thatParent.parentNode.children
       for (let i = 0, elseLil = elseLi.length; i < elseLil; i++) {
         if (elseLi[i] !== thatParent) {
@@ -191,22 +205,27 @@ export default {
         }
       }
     },
+
     // 点击大box时 大box隐藏 小box显示
     selectBigBox (event) {
       let that = event.currentTarget
       that.style.display = 'none'
       that.parentNode.children[0].style.display = 'block'
     },
-    choiceTeam ($event, id, name) { // 接受传过来的参数
-      this.btnLock = true
-      let that = event.currentTarget
-      const nbaPostMsg = {
+
+    // 点击按钮参与竞猜，向服务器传递参数，保存参数到本地localStorege
+    choiceTeam (id, name, $event) {
+      this.btnLock = true // 点击后立即禁用按钮，防止重复提交
+      let that = event.currentTarget // 获取当前点击的按钮
+      const nbaPostMsg = { // 定义传递的参数格式
         competition_id: id,
         competition_team: name
       }
-      NBApostApi(nbaPostMsg).then(res => {
+      NBApostApi(nbaPostMsg).then(res => { // 发送请求传递数据
         if (res.message === '提交成功') {
           that.style.background = '#b51e1a'
+          window.localStorage.setItem('team', name) // 将提交信息存入localstore， 用于判断是否已参加过竞猜
+          window.localStorage.setItem('id', id)
         } else {
           this.errorMsg('对不起，您今日存款金额不足388元，不能参与竞猜。若有疑问，请联系在线客服', 5000)
         }
@@ -218,6 +237,25 @@ export default {
           this.errorMsg('提交错误，请联系在线客服', 3000)
         }
       })
+    },
+
+    // 判断是否已参与竞猜
+    btnColor () {
+      let temaID = localStorage.getItem('id')
+      let btnList = document.getElementsByClassName('nbaBtn') // 获取两个按钮的集合
+      console.log(btnList[0].value)
+      console.log(temaID)
+      if (localStorage.getItem('team') && temaID === btnList[0].value) { // localstorage中存在team和ID,并且id要等于当前进行中的PK才证明参与过竞猜
+        let temaName = localStorage.getItem('team')
+        this.btnLock = true // 禁用按钮
+        if (btnList[0].title === temaName) { // 如果第一个按钮的title等于temaNmae就将背景色设置为选中
+          btnList[0].style.background = '#b51e1a'
+        } else {
+          btnList[1].style.background = '#b51e1a'
+        }
+      } else {
+        console.log('还未参与竞猜')
+      }
     },
     errorMsg (msg, time) {
       this.$notify({
@@ -262,6 +300,7 @@ export default {
   width: 100%;
   background:rgba(33, 43, 73, 1);
   overflow: hidden;
+  position: relative;
 }
 .nbaSmallBox>div {
   float: left;
@@ -313,8 +352,9 @@ export default {
   width: 70%;
 }
 .nbaSmallBox-ing {
+  position: absolute;
+  right: 0;
   width: 15%;
-  height: 80%;
 }
 
 .nbaSmallBox-msg-vs {
@@ -330,7 +370,7 @@ export default {
 
 .nbaSmallBox-jingcai {
   width: 18%;
-  margin:10px -20px
+  margin:10px -5px
 }
 
 .nbaSmallBox-jingcai>p{
@@ -344,8 +384,10 @@ export default {
 .nbaBigBox {
   background: linear-gradient(to top right, #212b49 , #471b1a);
   overflow:hidden;
-  display: none
+  display: none;
+  position: relative;
 }
+
 .nbaBigBox-teamMsg>img {
   width: 70%;
 }
@@ -354,9 +396,18 @@ export default {
 }
 
 .nbaBigBox-msg {
-  width: 85%;
+  width: 100%;
 }
-
+.nbaBigBox-ing {
+  position: absolute;
+  right: 0;
+  width: 100%;
+  text-align: right;
+  top:0;
+}
+.nbaBigBox-ing>img {
+  width: 15%;
+}
 .nbaBigBox-msg-time {
   color: rgba(91, 107, 156, 1);
   font-size: 10px;
@@ -398,6 +449,23 @@ export default {
   margin-bottom: 15px;
   color: #ffffff;
   background: linear-gradient(rgba(153, 153, 153, 1),rgba(153, 153, 153, 1));
+}
 
+#nbaRule {
+  font-size: 12px;
+  color: #ffffff;
+  text-align: left;
+  margin: 10px 0;
+  padding: 8px 10px;
+  background-color: rgba(33, 43, 73, 1);
+}
+
+#nbaRule>b {
+  font-size: 16px;
+}
+
+#nbaRule>p {
+  line-height: 20px;
+  color: rgba(91, 107, 156, 1);
 }
 </style>

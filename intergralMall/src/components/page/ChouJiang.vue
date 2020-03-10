@@ -214,7 +214,7 @@ export default {
         height: ''
       },
       liHnum: null,
-      chance: 1,
+      chance: 1, // 1为测试所用 ，正式项目需设置默认为0
       res: [],
       numarr: [],
       resNum: null,
@@ -249,7 +249,7 @@ export default {
         luckResApi().then(res => {
           // 处理收到的规则信息，然后根据处理后的信息启动抽奖，反馈出结果
           // this.res = res.result
-          this.res = [0, 100, 1000]
+          this.res = [0, 100, 1000] // 测试设置的数据，正式项目请将res设置为后台接受到的抽奖信息 如上
           this.computedRes()
           // 请求完成后再执行转动事件
           this.luckTurn()

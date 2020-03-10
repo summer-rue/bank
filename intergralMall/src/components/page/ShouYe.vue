@@ -31,7 +31,7 @@
     >
       <van-tab v-for="goods in goods" :title="goods.name" :key="goods.index" >
         <div class="goodsBox">
-          <div class="goodDetail" v-for="goodData in goods.data" :key="goodData.pk">
+          <div class="goodDetail" v-for="goodData in goods.data" :key="goodData.pk" @click="toConversion(goodData.pk)">
             <div class="goods-img" v-if="goodData.app_img">
               <img :src="'https://bmw1984.com' + goodData.app_img.url" alt="" >
             </div>
@@ -106,6 +106,10 @@ export default {
       }).catch(error => {
         $state.complete()
       })
+    },
+    toConversion (id) {
+      this.$router.push('/converSion')
+      this.$store.state.goodsID = id
     }
   },
   watch: {
