@@ -231,10 +231,10 @@ export default {
         }
       // eslint-disable-next-line handle-callback-err
       }).catch(error => {
-        if (status = 401) {
-          this.errorMsg('您还未登录,请登录后再来参与。', 3000)
+        if (Response.status === 401) {
+          this.errorMsg('您还未登录,请登录后再来参与', 3000)
         } else {
-          this.errorMsg('提交错误，请联系在线客服', 3000)
+          this.errorMsg('提交错误，请联系在线客服。', 3000)
         }
       })
     },

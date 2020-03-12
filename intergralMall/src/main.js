@@ -5,7 +5,7 @@ import App from './App'
 import router from './router'
 import MetaInfo from 'vue-meta-info'
 import store from './store'
-import { Icon, Tabbar, TabbarItem, Swipe, SwipeItem, NoticeBar, Tab, Tabs, Toast, Notify, Lazyload, Form, Field } from 'vant'
+import { Icon, Tabbar, TabbarItem, Swipe, SwipeItem, NoticeBar, Tab, Tabs, Toast, Notify, Lazyload, Form, Field, Dialog } from 'vant'
 import 'vant/lib/index.css'
 import '../src/assets/css/base.css'
 import VueAwesomeSwiper from 'vue-awesome-swiper'
@@ -21,6 +21,7 @@ Vue.use(Tab)
 Vue.use(Tabs)
 Vue.use(Toast)
 Vue.use(Notify)
+Vue.use(Dialog)
 Vue.use(Form)
 Vue.use(Field)
 Vue.use(MetaInfo)
