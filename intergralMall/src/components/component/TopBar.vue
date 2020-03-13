@@ -2,17 +2,22 @@
   <div id='TopBar'>
     <van-icon name="bars" size=25 id='TopBar-bar'/>
     <img src="../../assets/images/TopBar/logo.png" alt="" id='TopBar-logo'>
-    <van-icon name="search" size=25 id='TopBar-search'/>
+    <van-icon name="search" size=25 id='TopBar-search' @click="To" />
   </div>
 </template>
 
 <script>
 export default {
-
+  methods: {
+    To () {
+      this.$router.push('/search')
+    }
+  }
 }
 </script>
 
 <style>
+
 #TopBar {
   position: fixed;
   top: 0;

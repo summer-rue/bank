@@ -7,6 +7,7 @@ import Login from '@/components/page/Login'
 import ChouJiang from '@/components/page/ChouJiang'
 import Nba from '@/components/page/NBA'
 import ConverSion from '@/components/page/conversion'
+import Search from '@/components/page/search'
 
 Vue.use(Router)
 export default new Router({
@@ -62,6 +63,13 @@ export default new Router({
       meta: { // 路由元信息
         requireAuth: true // 路由守卫权限判断信息
       }
+    },
+
+    // 搜索
+    {
+      path: '/search',
+      name: 'search',
+      component: Search
     }
   ]
 })

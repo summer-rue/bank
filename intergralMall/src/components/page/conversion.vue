@@ -126,8 +126,8 @@ export default {
           this.$notify({
             message: res.message,
             type: 'warning',
-            duration: 3000,
-            onOpened: this.$router.push('/')
+            duration: 6000,
+            onClose: this.$router.push('/')
           })
         // eslint-disable-next-line handle-callback-err
         }).catch(error => {

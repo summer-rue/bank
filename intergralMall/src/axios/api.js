@@ -11,6 +11,7 @@ export const luckRulingApi = () => get('/api/lucky_everyday/rolling_letter/?form
 export const NBAmegApi = () => get('/api/nba/competition/?format=json') // NBA竞猜信息请求
 export const integralDiscountAPI = () => get('/api/auth/sign/query/?format=json') // 签到积分打折信息请求
 export const goodsDiscountAPI = () => get('/api/auth/points/?format=json') // 商品打折信息请求
+export const searchDataAPI = () => get('/api/auth/points/?format=json') // 搜索页信息
 // -----------------------------------------------------
 // *************长长的分哥线***********************
 // -----------------------------------------------------
@@ -18,7 +19,7 @@ export const goodsDiscountAPI = () => get('/api/auth/points/?format=json') // �
 // post请求封装p为传递的数据参数 （）可去掉  例如可用于登陆功能验证账号密码
 export const LoginApi = (p) => post('/rest-auth/login/', p) // 登录页请求
 export const luckResApi = () => post('/api/lucky_everyday/lottery/?format=json') // 抽奖中心规则请求
-export const NBApostApi = (p) => post('/api/nba/lottery/?format=json') // NBA页面提交竞猜数据
-export const submitOrderApi = (p) => post('/api/auth/sign/orders/') // 商品兑换信息提交
+export const NBApostApi = (p) => post('/api/nba/lottery/?format=json', p) // NBA页面提交竞猜数据
+export const submitOrderApi = (p) => post('/api/auth/sign/orders/', p) // 商品兑换信息提交
 
 // import { apiGet， apiGet } from '@/request/api 页面中可以这样调用我们的api接口：
