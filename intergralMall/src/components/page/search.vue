@@ -2,11 +2,11 @@
   <div id=''>
     <TopBar2></TopBar2>
     <div class="main-second-wrap">
-        <div class="search-main">
+      <div class="search-main">
         <input type="text" class="search-box" v-model="inWord" placeholder="请输入商品名称">
         <button class="search-btn" @click="SearchAgain">搜索</button>
-        </div>
-        <div class="recommend-wrap1">
+      </div>
+      <div class="recommend-wrap1">
         <div>
           <div class="goodsBox" v-if="isGet">
             <div class="goodDetail" v-for="goodData in goods" :key="goodData.pk" @click="toConversion(goodData.pk)">
@@ -21,13 +21,12 @@
               <p class="goods-points">{{goodData.points}} 积分</p>
             </div>
           </div>
+
           <div v-if="isShow">
               <p style="color:#FFFFFF">关于&nbsp;<span style="color:red">"{{ searchWord }}"</span>&nbsp;的搜索结果不存在</p>
           </div>
-          <div></div>
         </div>
       </div>
-    </div>
     </div>
   </div>
 </template>
@@ -54,16 +53,15 @@ export default {
   methods: {
     SearchAgain () {
       let _this = this
-      if (_this.inWord === '') {
+      if (_this.inWord === '') { // 输入的搜索内容为空时
         return false
       } else {
         _this.goods = []
         axios.get('https://bmw1984.com/api/mulu/?format=json&search=' + _this.inWord).then(Response => {
-          for (let i = 0; i < Response.data.results.length; i++) {
+          for (let i = 0; i < Response.data.results.length; i++) { // 发送请求，循环将请求到的数组中的数据push到goods中，达到数据更新目的，直接接收页面无法刷新
             _this.goods.push(Response.data.results[i])
           }
-          if (_this.goods.length != 0) {
-            console.log(_this.goods.length)
+          if (_this.goods.length !== 0) { // 如果返回的数组为空时，说明没有对应的数据
             _this.isGet = true
             _this.isShow = false
           } else {

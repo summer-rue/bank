@@ -5,7 +5,7 @@ import App from './App'
 import router from './router'
 import MetaInfo from 'vue-meta-info'
 import store from './store'
-import { Icon, Tabbar, TabbarItem, Swipe, SwipeItem, NoticeBar, Tab, Tabs, Toast, Notify, Lazyload, Form, Field, Dialog } from 'vant'
+import { Icon, Tabbar, TabbarItem, Swipe, SwipeItem, NoticeBar, Tab, Tabs, Toast, Notify, Lazyload, Form, Field, Dialog, Grid, GridItem } from 'vant'
 import 'vant/lib/index.css'
 import '../src/assets/css/base.css'
 import VueAwesomeSwiper from 'vue-awesome-swiper'
@@ -26,6 +26,8 @@ Vue.use(Form)
 Vue.use(Field)
 Vue.use(MetaInfo)
 Vue.use(VueAwesomeSwiper)
+Vue.use(Grid)
+Vue.use(GridItem)
 
 Vue.use(Lazyload)// TDK设置
 

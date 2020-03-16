@@ -8,6 +8,7 @@ import ChouJiang from '@/components/page/ChouJiang'
 import Nba from '@/components/page/NBA'
 import ConverSion from '@/components/page/conversion'
 import Search from '@/components/page/search'
+import Vip from '@/components/page/vip'
 
 Vue.use(Router)
 export default new Router({
@@ -46,6 +47,13 @@ export default new Router({
       path: '/Nba',
       name: 'Nba',
       component: Nba
+    },
+
+    // vip
+    {
+      path: '/vip',
+      name: 'vip',
+      component: Vip
     },
 
     // 登陆

@@ -30,6 +30,9 @@ body{
 /* 去除浏览器默认的margin和padding, 自行删减一些不必要的标签 */
 body,
 p,
+td,
+th,
+tr,
 h1,
 h2,
 h3,
