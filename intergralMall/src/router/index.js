@@ -9,6 +9,12 @@ import Nba from '@/components/page/NBA'
 import ConverSion from '@/components/page/conversion'
 import Search from '@/components/page/search'
 import Vip from '@/components/page/vip'
+import GuanWang from '@/components/page/GuanWang'
+import MingXi from '@/components/page/MingXi'
+import JiLu from '@/components/page/JiLu'
+import GuanYujifen from '@/components/page/GuanYujifen'
+import YiWen from '@/components/page/YiWen'
+import GuiZe from '@/components/page/GuiZe'
 
 Vue.use(Router)
 export default new Router({
@@ -49,6 +55,13 @@ export default new Router({
       component: Nba
     },
 
+    // 官网
+    {
+      path: '/guanwang',
+      name: 'GuanWang',
+      component: GuanWang
+    },
+
     // vip
     {
       path: '/vip',
@@ -78,6 +91,41 @@ export default new Router({
       path: '/search',
       name: 'search',
       component: Search
+    },
+
+    // 明细
+    {
+      path: '/mingxi',
+      name: 'Mingxi',
+      component: MingXi
+    },
+
+    // 兑换记录
+    {
+      path: '/duihuanjilu',
+      name: 'JiLu',
+      component: JiLu
+    },
+
+    // 关于积分
+    {
+      path: '/guanyujifen',
+      name: 'GuanYujifen',
+      component: GuanYujifen
+    },
+
+    // 常见疑问
+    {
+      path: '/yiwen',
+      name: 'YiWen',
+      component: YiWen
+    },
+
+    // 规则与条款
+    {
+      path: '/guize',
+      name: 'GuiZe',
+      component: GuiZe
     }
   ]
 })

@@ -31,35 +31,45 @@
     </div>
 
     <div id="personRules">
-      <div class="personRules-li">
+      <router-link to='/mingxi'>
+        <div class="personRules-li">
         <span class="personRules-li-1" ><van-icon name="label-o" /></span>
         <span class="personRules-li-2" >积分明细</span>
         <span class="personRules-li-3" ><van-icon name="arrow" /></span>
       </div>
+      </router-link>
 
-      <div class="personRules-li">
+      <router-link to='/duihuanjilu'>
+        <div class="personRules-li">
         <span class="personRules-li-1" ><van-icon name="edit" /></span>
         <span class="personRules-li-2" >兑换记录</span>
         <span class="personRules-li-3" ><van-icon name="arrow" /></span>
       </div>
+      </router-link>
 
-      <div class="personRules-li">
+      <router-link to='/guanyujifen'>
+        <div class="personRules-li">
         <span class="personRules-li-1" ><van-icon name="points" /></span>
         <span class="personRules-li-2" >关于积分</span>
         <span class="personRules-li-3" ><van-icon name="arrow" /></span>
       </div>
+      </router-link>
 
-      <div class="personRules-li">
+      <router-link to='yiwen'>
+        <div class="personRules-li">
         <span class="personRules-li-1" ><van-icon name="question-o" /></span>
         <span class="personRules-li-2" >常见疑问</span>
         <span class="personRules-li-3" ><van-icon name="arrow" /></span>
       </div>
+      </router-link>
 
-      <div class="personRules-li">
+      <router-link to='/guize'>
+        <div class="personRules-li">
         <span class="personRules-li-1" ><van-icon name="notes-o" /></span>
         <span class="personRules-li-2" >规则与条款</span>
         <span class="personRules-li-3" ><van-icon name="arrow" /></span>
       </div>
+      </router-link>
     </div>
     <BottomBar/>
   </div>
